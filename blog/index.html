@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Purple Squirrel Media</title>
+    <meta name="description" content="Updates on developer tools, open source projects, and publishing from Purple Squirrel Media.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+
+    <section class="blog-hero">
+        <div class="section-inner">
+            <div class="section-label">// Blog</div>
+            <h1 class="section-title">Dispatches from<br>the build queue.</h1>
+            <div class="section-divider"></div>
+        </div>
+    </section>
+
+    <section class="blog-listing">
+        <div class="section-inner">
+            <div class="posts-grid">
+                <article class="post-card">
+                    <div class="post-date">Feb 12, 2026</div>
+                    <h2 class="post-title"><a href="/blog/2026-02-12-hello-world.html">Hello World — Purple Squirrel Media is Live</a></h2>
+                    <p class="post-excerpt">We finally shipped the website. Here's what Purple Squirrel Media is building, why we exist, and what's coming next.</p>
+                    <div class="post-tags">
+                        <span class="tag">Launch</span>
+                        <span class="tag">Meta</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/shared.js"></script>
+    <script>
+        injectNav(document.getElementById('nav-placeholder'));
+        injectFooter(document.getElementById('footer-placeholder'));
+        initScrollNav();
+        initMobileNav();
+    </script>
+</body>
+</html>
