@@ -160,7 +160,8 @@
                 body: JSON.stringify({
                     name: form.querySelector('[name="name"]').value,
                     email: form.querySelector('[name="email"]').value,
-                    message: form.querySelector('[name="message"]').value
+                    message: form.querySelector('[name="message"]').value,
+                    'cf-turnstile-response': form.querySelector('[name="cf-turnstile-response"]')?.value || ''
                 })
             });
             const data = await res.json();

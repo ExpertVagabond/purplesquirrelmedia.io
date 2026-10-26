@@ -1,3 +1,23 @@
+// Turnstile (added 2026-10-26, same check as jessicadoylemekkes.com). Fails closed:
+// no secret, no token, an unreachable siteverify, another action or another host
+// all count as unverified.
+const TURNSTILE_HOSTS = new Set(["purplesquirrelmedia.io", "www.purplesquirrelmedia.io"]);
+
+async function turnstileOk(token, secret, ip) {
+    if (!token || !secret) return false;
+    const body = new FormData();
+    body.append('secret', secret);
+    body.append('response', token);
+    if (ip) body.append('remoteip', ip);
+    try {
+        const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
+        const result = await res.json();
+        return result.success === true && result.action === 'turnstile-spin-v1' && TURNSTILE_HOSTS.has(result.hostname);
+    } catch (e) {
+        return false;
+    }
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -26,6 +46,16 @@ export async function onRequestPost(context) {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return new Response(JSON.stringify({ error: 'Invalid email address.' }), { status: 400, headers });
+    }
+
+    // Verified before anything is stored or sent, so a bot burst can't reach the webhook or KV.
+    const verified = await turnstileOk(
+        typeof data['cf-turnstile-response'] === 'string' ? data['cf-turnstile-response'].slice(0, 2048) : '',
+        env.TURNSTILE_SECRET_KEY,
+        request.headers.get('cf-connecting-ip')
+    );
+    if (!verified) {
+        return new Response(JSON.stringify({ error: "We couldn't confirm you're not a bot. Please wait a moment and try again." }), { status: 403, headers });
     }
 
     // Discord webhook notification
