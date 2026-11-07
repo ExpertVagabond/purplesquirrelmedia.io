@@ -1,0 +1,3 @@
+/blog/*    https://purplesquirrel.media/    301
+/api/*     https://purplesquirrel.media/    301
+/*         https://purplesquirrel.media/:splat    301
